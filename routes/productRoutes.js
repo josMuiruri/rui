@@ -5,13 +5,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(productController.getAllTours)
-  .post(productController.createTour);
+  .get(productController.getAllProducts)
+  .post(productController.createProduct);
 
 router
   .route('/:id')
-  .get(productController.getTour)
-  .patch(productController.updateTour)
-  .delete(productController.deleteTour);
+  .get(productController.getProduct)
+  .patch(productController.updateProduct)
+  .delete(productController.deleteProduct);
 
 module.exports = router;
