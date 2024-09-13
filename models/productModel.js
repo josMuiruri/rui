@@ -36,6 +36,15 @@ const productSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  brand: {
+    type: String,
+    required: [true, 'A product must have a brand'],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
 });
 
 const Product = mongoose.model('Product', productSchema);

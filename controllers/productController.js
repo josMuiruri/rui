@@ -1,8 +1,30 @@
 const Product = require('./../models/productModel');
+const APIFeatures = require('./../utils/apiFeatures');
+exports.aliasCostlyProducts = (req, res, next) => {
+  req.query.limit = '10';
+  req.query.sort = '-price';
+  req.query.fields = 'name,price,description';
+  next();
+};
+
+exports.aliasTopProducts = (req, res, next) => {
+  req.query.limit = '10';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,description';
+  next();
+};
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    // EXECUTE QUERY
+
+    const features = new APIFeatures(Product.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const products = await features.query;
+
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',

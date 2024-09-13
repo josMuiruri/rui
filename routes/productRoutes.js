@@ -4,6 +4,14 @@ const productController = require('./../controllers/productController');
 const router = express.Router();
 
 router
+  .route('/most-costly')
+  .get(productController.aliasCostlyProducts, productController.getAllProducts);
+
+router
+  .route('/top-10-cheapest')
+  .get(productController.aliasTopProducts, productController.getAllProducts);
+
+router
   .route('/')
   .get(productController.getAllProducts)
   .post(productController.createProduct);
