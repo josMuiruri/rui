@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+const validator = require('validator')
 
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'A product must have a name'],
+    trim: true,
+    maxlength: [50, 'product name should not exceed 50 characters'],
+    minlength: [5, 'product name should not be less than 5 characters'],
   },
+  slug: String,
   quantity: {
     type: Number,
     required: true,
@@ -16,7 +22,9 @@ const productSchema = new mongoose.Schema({
   },
   ratingsQuantity: {
     type: Number,
-    default: 0,
+    default: 2,
+    max: [5, 'rating must be below or equal to 5'],
+    min: [1, 'rating must be above or equal 1.0'],
   },
   image: {
     type: String,
@@ -26,12 +34,20 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'A product must have a price'],
   },
-  priceDiscount: Number,
-  summary: {
-    type: String,
-    trim: true,
-    required: [true, 'A product must have a summary'],
+  priceDiscount: {
+    type: Number,
+    validate: {
+      validator: function (val) {
+      return val < this.price;
+    },
+    message: 'Discount price ({VALUE}) should be below the regular price'
+  }
   },
+  // summary: {
+  //   type: String,
+  //   trim: true,
+  //   required: [true, 'A product must have a summary'],
+  // },
   description: {
     type: String,
     trim: true,
@@ -40,11 +56,34 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A product must have a brand'],
   },
+
   createdAt: {
     type: Date,
     default: Date.now(),
     select: false,
   },
+
+  productTimeSold: {
+    type: Date,
+    // required: [true, 'The time when a product was sold must be present'],
+  },
+  salesInMonth: {
+    type: String,
+    default: 0,
+  },
+  // toJSON: { virtuals: true },
+  // toObject: { virtuals: true },
+});
+
+// not saved to db
+// productSchema.virtual('salesInWeeks').get(function () {
+//   return this.monthlySale / 7;
+// });
+
+// Doc middleware
+productSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 const Product = mongoose.model('Product', productSchema);

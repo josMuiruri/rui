@@ -1,5 +1,6 @@
 const Product = require('./../models/productModel');
 const APIFeatures = require('./../utils/apiFeatures');
+
 exports.aliasCostlyProducts = (req, res, next) => {
   req.query.limit = '10';
   req.query.sort = '-price';
@@ -104,6 +105,87 @@ exports.deleteProduct = async (req, res) => {
     res.status(204).json({
       status: 'success',
       data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
+
+exports.getProductStats = async (req, res) => {
+  try {
+    const stats = await Product.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 3.1 } },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$brand' },
+          numProducts: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingsAverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $sort: { avgPrice: 1 },
+      },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
+
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+
+    const plan = await Product.aggregate([
+      { $unwind: '$productTimeSold' },
+      {
+        $match: {
+          productTimeSold: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-31`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$productTimeSold' },
+          numProductStats: { $sum: 1 },
+          products: { $push: '$name' },
+        },
+      },
+      {
+        // months to be displayed
+        $addFields: { month: '$_id' },
+      },
+      {
+        // desc order
+        $sort: { numProductStats: -1 },
+      },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plan,
+      },
     });
   } catch (err) {
     res.status(404).json({
