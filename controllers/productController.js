@@ -1,6 +1,7 @@
 const Product = require('./../models/productModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
 
 exports.aliasCostlyProducts = (req, res, next) => {
   req.query.limit = '10';
@@ -39,6 +40,10 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
+  if (!product) {
+    return next(new AppError('No product found with that ID', 404));
+  }
+
   res.status(200).json({
     status: 'success',
 
@@ -64,6 +69,11 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  if (!product) {
+    return next(new AppError('No product found with that ID', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -73,7 +83,12 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  await Product.findByIdAndDelete(req.params.id);
+  const product = await Product.findByIdAndDelete(req.params.id);
+
+  if (!product) {
+    return next(new AppError('No product found with that ID', 404));
+  }
+
   res.status(204).json({
     status: 'success',
     data: null,
