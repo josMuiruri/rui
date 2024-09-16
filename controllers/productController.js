@@ -125,6 +125,7 @@ exports.getProductStats = catchAsync(async (req, res, next) => {
 });
 
 exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+  // converting a string to a no.
   const year = req.params.year * 1;
 
   const plan = await Product.aggregate([

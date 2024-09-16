@@ -1,79 +1,85 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const validator = require('validator')
+const validator = require('validator');
 
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A product must have a name'],
-    trim: true,
-    maxlength: [50, 'product name should not exceed 50 characters'],
-    minlength: [5, 'product name should not be less than 5 characters'],
-  },
-  slug: String,
-  quantity: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  ratingsAverage: {
-    type: Number,
-    default: 0.0,
-  },
-  ratingsQuantity: {
-    type: Number,
-    default: 2,
-    max: [5, 'rating must be below or equal to 5'],
-    min: [1, 'rating must be above or equal 1.0'],
-  },
-  image: {
-    type: String,
-    required: false,
-  },
-  price: {
-    type: Number,
-    required: [true, 'A product must have a price'],
-  },
-  priceDiscount: {
-    type: Number,
-    validate: {
-      validator: function (val) {
-      return val < this.price;
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'A product must have a name'],
+      unique: true,
+      trim: true,
+      maxlength: [50, 'A product name should not exceed 50 characters '],
+      minlength: [5, 'A product name should not be less than 5 characters '],
     },
-    message: 'Discount price ({VALUE}) should be below the regular price'
-  }
-  },
-  // summary: {
-  //   type: String,
-  //   trim: true,
-  //   required: [true, 'A product must have a summary'],
-  // },
-  description: {
-    type: String,
-    trim: true,
-  },
-  brand: {
-    type: String,
-    required: [true, 'A product must have a brand'],
-  },
+    slug: String,
+    quantity: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    ratingsAverage: {
+      type: Number,
+      default: 1.2,
+      max: [5, 'rating must be below or equal to 5'],
+      min: [1, 'rating must be above or equal 1.0'],
+    },
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
+    },
+    image: {
+      type: String,
+      required: false,
+    },
+    price: {
+      type: Number,
+      required: [true, 'A product must have a price'],
+    },
+    priceDiscount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          // this only points to current doc on NEW document creation
+          return val < this.price;
+        },
+        message: 'Discount price ({VALUE}) should be below the regular price',
+      },
+    },
+    // summary: {
+    //   type: String,
+    //   trim: true,
+    //   required: [true, 'A product must have a summary'],
+    // },
+    description: {
+      type: String,
+      trim: true,
+    },
+    brand: {
+      type: String,
+      required: [true, 'A product must have a brand'],
+    },
 
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-    select: false,
-  },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      select: false,
+    },
 
-  productTimeSold: {
-    type: Date,
-    // required: [true, 'The time when a product was sold must be present'],
+    productTimeSold: {
+      type: Date,
+      // required: [true, 'The time when a product was sold must be present'],
+    },
+    salesInMonth: {
+      type: String,
+      default: 0,
+    },
   },
-  salesInMonth: {
-    type: String,
-    default: 0,
-  },
-  // toJSON: { virtuals: true },
-  // toObject: { virtuals: true },
-});
+  // {
+  //   toJSON: { virtuals: true },
+  //   toObject: { virtuals: true },
+  // }
+);
 
 // not saved to db
 // productSchema.virtual('salesInWeeks').get(function () {

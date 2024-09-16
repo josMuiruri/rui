@@ -11,7 +11,7 @@ router
   .route('/top-10-cheapest')
   .get(productController.aliasTopProducts, productController.getAllProducts);
 
-router.route('/stats').get(productController.getProductStats);
+router.route('/product-stats').get(productController.getProductStats);
 
 router.route('/montly-plan/:year').get(productController.getMonthlyPlan);
 
