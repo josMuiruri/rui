@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validate = require('validator');
 const bcrypt = require('bcryptjs');
+const catchAsync = require('../utils/catchAsync');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -19,6 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8,
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -44,6 +46,13 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+// instance method available on all user docs
+userSchema.methods.correctPassword = catchAsync(
+  async function (candidatePassword, userPassword) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+  },
+);
 
 const User = mongoose.model('User', userSchema);
 
