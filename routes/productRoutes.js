@@ -25,6 +25,10 @@ router
   .route('/:id')
   .get(productController.getProduct)
   .patch(productController.updateProduct)
-  .delete(productController.deleteProduct);
+  .delete(
+    authController.protect,
+    authController.restrictPro('admin', 'chief-cashier'),
+    productController.deleteProduct,
+  );
 
 module.exports = router;
