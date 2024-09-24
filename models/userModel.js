@@ -61,7 +61,7 @@ userSchema.pre('save', function (next) {
   // if pass property is not modified do not manipulate changedPasswordAt
   if (!this.isModified('password') || this.isNew) return next();
 
-  this.passwordChangedAt = Date.now();
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
