@@ -59,6 +59,12 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A product must have a brand'],
     },
+    cashiers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
 
     createdAt: {
       type: Date,

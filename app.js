@@ -3,7 +3,8 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean')
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -32,12 +33,19 @@ app.use('/api', limiter);
 // Body parser, reading data from body into req.body
 app.use(express.json());
 
-// Data Sanitization against NOSQL query injection - req.body, 
+// Data Sanitization against NoSQL query injection - req.body,
 // req.queryString & req.params filter out all the sign ($ and .)
-app.use(mongoSanitize())
+app.use(mongoSanitize());
 
 // Data sanitization against XSS - clean user input from malicious html code
-app.use(xss())
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: ['price', 'quantity', 'ratingsQuantity'],
+  }),
+);
 
 // ROUTES
 
