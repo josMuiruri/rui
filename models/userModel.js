@@ -56,6 +56,15 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// hook -update changedPassword
+userSchema.pre('save', function (next) {
+  // if pass property is not modified do not manipulate changedPasswordAt
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now();
+  next();
+});
+
 // compare password instance
 // instance method should not be wrapped in a global error handler
 // since the global err handler would return a promise & potentially
