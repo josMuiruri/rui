@@ -92,6 +92,13 @@ const productSchema = new mongoose.Schema(
 //   return this.monthlySale / 7;
 // });
 
+// virtual populate
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id',
+});
+
 // Doc middleware
 productSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
