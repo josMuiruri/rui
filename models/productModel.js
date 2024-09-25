@@ -98,6 +98,15 @@ productSchema.pre('save', function (next) {
   next();
 });
 
+// Query middleware
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'cashiers',
+    select: '-__v -passwordChangedAt',
+  });
+  next();
+});
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
