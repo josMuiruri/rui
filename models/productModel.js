@@ -81,10 +81,10 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  // {
-  //   toJSON: { virtuals: true },
-  //   toObject: { virtuals: true },
-  // }
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
 // not saved to db
