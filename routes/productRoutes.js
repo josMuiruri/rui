@@ -17,17 +17,31 @@ router
 
 router.route('/product-stats').get(productController.getProductStats);
 
-router.route('/montly-plan/:year').get(productController.getMonthlyPlan);
+router
+  .route('/montly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictPro('admin', 'chief-cashier', 'cashier'),
+    productController.getMonthlyPlan,
+  );
 
 router
   .route('/')
-  .get(authController.protect, productController.getAllProducts)
-  .post(productController.createProduct);
+  .get(productController.getAllProducts)
+  .post(
+    authController.protect,
+    authController.restrictPro('admin', 'chief-cashier'),
+    productController.createProduct,
+  );
 
 router
   .route('/:id')
   .get(productController.getProduct)
-  .patch(productController.updateProduct)
+  .patch(
+    authController.protect,
+    authController.restrictPro('admin', 'chief-cashier'),
+    productController.updateProduct,
+  )
   .delete(
     authController.protect,
     authController.restrictPro('admin', 'chief-cashier'),

@@ -11,6 +11,11 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 // update the current user
 exports.updateMe = async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
@@ -55,7 +60,7 @@ exports.createUser = (req, res) => {
 
 exports.getAllUsers = factory.getAll(User);
 
-exports.getUser = factory.deleteOne(User);
+exports.getUser = factory.getOne(User);
 
 // not passwords
 exports.updateUser = factory.updateOne(User);
