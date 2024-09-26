@@ -84,13 +84,17 @@ const productSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // not saved to db
 // productSchema.virtual('salesInWeeks').get(function () {
 //   return this.monthlySale / 7;
 // });
+
+// indexing
+productSchema.index({ price: 1, ratingsAverage: -1 });
+productSchema.index({ slug: 1 });
 
 // virtual populate
 productSchema.virtual('reviews', {

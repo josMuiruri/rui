@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('./productModel');
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -38,6 +39,31 @@ reviewSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name photo',
   });
+  next();
+});
+
+reviewSchema.statics.calcAverageRatings = async function (productId) {
+  const stats = await this.aggregate([
+    { $match: { product: productId } },
+    {
+      $group: {
+        _id: 'product',
+        nRating: { $sum: 1 },
+        avgRating: { $avg: '$rating' },
+      },
+    },
+  ]);
+  console.log(stats);
+
+  // not storing just awaiting
+  await Product.findByIdAndUpdate(productId, {
+    ratingsQuantity: stats[0].nRating,
+    ratingsAverage: stats[0].avgRating,
+  });
+};
+
+reviewSchema.pre('save', function (next) {
+  this.constructor.calcAverageRatings(this.product);
   next();
 });
 
