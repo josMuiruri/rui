@@ -33,6 +33,9 @@ const reviewSchema = new mongoose.Schema(
   },
 );
 
+// preventing duplicate reviews
+reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+
 // query hook populating Reviews
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
@@ -42,29 +45,43 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+// static method
 reviewSchema.statics.calcAverageRatings = async function (productId) {
   const stats = await this.aggregate([
     { $match: { product: productId } },
     {
       $group: {
-        _id: 'product',
+        _id: '$product',
         nRating: { $sum: 1 },
         avgRating: { $avg: '$rating' },
       },
     },
   ]);
-  console.log(stats);
 
-  // not storing just awaiting
-  await Product.findByIdAndUpdate(productId, {
-    ratingsQuantity: stats[0].nRating,
-    ratingsAverage: stats[0].avgRating,
-  });
+  if (stats.length > 0) {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 3.5,
+    });
+  }
 };
 
-reviewSchema.pre('save', function (next) {
+reviewSchema.post('save', function () {
   this.constructor.calcAverageRatings(this.product);
+});
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.r = await this.model.findOne();
   next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  await this.r.constructor.calcAverageRatings(this.r.product);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
