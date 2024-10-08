@@ -1,0 +1,28 @@
+extends base
+
+block content 
+    main.main
+        .card-container 
+
+            each product in products
+                .card
+                    .card__header 
+                        .card__picture 
+                            .card__picture-overlay &nbsp;
+                            img.card__picture-img(src=`img/products/${products.image}`, alt=`${product.name}`)
+                        h3.heading-tertirary 
+                            span= product.name 
+
+                    .card__details 
+                        h4.card__sub-heading=`${product.brand}`
+                        p.card__text= product.description
+                    
+                    .card__footer 
+                        p 
+                            span.card__footer-value= `$${product.price}`
+                            | 
+                        p.card__ratings 
+                            span.card__footer-value= product.ratingsAverage
+                            | 
+                            span.card__footer-text= `rating (${product.ratingsQuantity})`
+                        a.btn.btn--green.btn--small(href=`/products/${product.slug}`) Details
