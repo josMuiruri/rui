@@ -6,5 +6,6 @@ const router = express.Router();
 // overview
 router.get('/', viewsController.getOverview);
 router.get('/product/:slug', viewsController.getProduct);
+router.get('/login', viewsController.getLoginForm);
 
 module.exports = router;

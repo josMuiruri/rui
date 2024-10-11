@@ -12,14 +12,20 @@ exports.getOverview = catchAsync(async (req, res) => {
   });
 });
 
-exports.getProduct = catchAsync(async (req, res) => {
+exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
     fields: 'review rating user',
   });
 
   res.status(200).render('product', {
-    title: 'Product',
+    title: product.name,
     product,
   });
 });
+
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Login into your account'
+  })
+}
