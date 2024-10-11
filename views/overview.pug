@@ -9,7 +9,7 @@ block content
                     .card__header 
                         .card__picture 
                             .card__picture-overlay &nbsp;
-                            img.card__picture-img(src=`img/products/${products.image}`, alt=`${product.name}`)
+                            img.card__picture-img(src=`/products/${product.image}`, alt=`${product.name}`)
                         h3.heading-tertirary 
                             span= product.name 
 
@@ -25,4 +25,4 @@ block content
                             span.card__footer-value= product.ratingsAverage
                             | 
                             span.card__footer-text= `rating (${product.ratingsQuantity})`
-                        a.btn.btn--green.btn--small(href=`/products/${product.slug}`) Details
+                        a.btn.btn--green.btn--small(href=`/product/${product.slug}`) Details
