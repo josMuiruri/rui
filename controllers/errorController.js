@@ -20,45 +20,81 @@ const handleValidationErrorDB = (err) => {
 const handleJWTError = (err) =>
   new AppError('Invalid token. Please log in again!', 401);
 
-const handleJWTExpiredError = (err) => new AppError('Your token has expired! Please log in again.', 401)
+const handleJWTExpiredError = (err) =>
+  new AppError('Your token has expired! Please log in again.', 401);
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
-};
-
-// Errors to be sent to the client
-const sendErrorProd = (err, res) => {
-  // operational errs
-  if (isOperational) {
-    res.status(err.statusCode).json({
+const sendErrorDev = (err, req, res) => {
+  // API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
       status: err.status,
+      error: err,
       message: err.message,
+      stack: err.stack,
     });
-    // programming or other unknown errors: don't leak error details
   } else {
-    // log error
+    // Rendered Website
     console.error('Error --', err);
-
-    // Send generic message
-    res.status(500).json({
-      status: 'error',
-      message: 'Something went wrong',
+    return res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: err.message,
     });
   }
 };
+
+// Errors to be sent to the client
+const sendErrorProd = (err, req, res) => {
+  // API
+  if (req.originalUrl.startsWith('/api')) {
+    // operational errors: send message to client
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+      // programming/other unknown errors: don't leak error details
+    } else {
+      // log error
+      console.error('Error --', err);
+
+      // Send generic message
+      return res.status(500).json({
+        status: 'error',
+        message: 'Something went wrong',
+      });
+    }
+  } else {
+    // operational errors: send message to client
+    // RENDER WEBSITE
+    if (err.isOperational) {
+      console.log(err);
+      return res.status(err.statusCode).render('error', {
+        title: 'Something went wrong!',
+        msg: err.message,
+      });
+      // programming or other unknown errors: don't leak error details
+    } else {
+      // log error
+      console.error('Error --', err);
+      // Send generic message
+      return res.status(err.statusCode).render('error', {
+        title: 'Something went wrong!',
+        msg: 'Please try again later',
+      });
+    }
+  }
+};
+
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
+    error.message = err.message;
+
     // name is unquire
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
@@ -67,6 +103,6 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'JsonWebTokenError') error = handleJWTError(error);
     if (error.name === 'TokenEpiredError') error = handleJWTExpiredError(error);
 
-    sendErrorProd(error, res);
+    sendErrorProd(error, req, res);
   }
 };
