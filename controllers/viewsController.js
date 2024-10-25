@@ -1,6 +1,6 @@
 const Product = require('../models/productModel');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('./../utils/appError')
+const AppError = require('./../utils/appError');
 
 exports.getOverview = catchAsync(async (req, res) => {
   // product data from collection
@@ -19,8 +19,8 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     fields: 'review rating user',
   });
 
-  if(!product) {
-    return next(new AppError('There is no product with that name', 404))
+  if (!product) {
+    return next(new AppError('There is no product with that name', 404));
   }
 
   res.status(200).render('product', {
@@ -38,5 +38,11 @@ exports.getLoginForm = (req, res) => {
 exports.getSignUpForm = (req, res) => {
   res.status(200).render('sign-up', {
     title: 'Sign-up',
+  });
+};
+
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account',
   });
 };
