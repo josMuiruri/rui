@@ -36,11 +36,11 @@ exports.getLoginForm = (req, res) => {
   });
 };
 
-exports.getSignUpForm = (req, res) => {
-  res.status(200).render('sign-up', {
-    title: 'Sign-up',
-  });
-};
+// exports.getSignUpForm = (req, res) => {
+//   res.status(200).render('sign-up', {
+//     title: 'Sign-up',
+//   });
+// };
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
