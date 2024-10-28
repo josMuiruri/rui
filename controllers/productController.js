@@ -17,12 +17,30 @@ const multerFilter = (req, file, cb) => {
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
-exports.uploadProductImages = upload.array('images', 3);
+exports.uploadProductImage = upload.array('image', 3);
 
-exports.resizeProductImages = (req, res, next) => {
+exports.resizeProductImage = catchAsync(async (req, res, next) => {
   console.log(req.files);
+
+  if (!req.files.image) return next();
+  req.body.image = [];
+
+  await Promise.all(
+    req.files.image.map(async (file, i) => {
+      const filename = `product-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
+      await sharp(file.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`/public/img/products/${filename}`);
+
+      req.body.image.push(filename);
+    }),
+  );
+
   next();
-};
+});
 
 exports.aliasCostlyProducts = (req, res, next) => {
   req.query.limit = '10';
