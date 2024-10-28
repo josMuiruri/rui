@@ -4,8 +4,6 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.use('/', authController.isLoggedIn);
-
 router.get('/', authController.isLoggedIn, viewsController.getOverview);
 router.get(
   '/product/:slug',
@@ -19,10 +17,5 @@ router.get(
   viewsController.getSignUpForm,
 );
 router.get('/me', authController.protect, viewsController.getAccount);
-// router.post(
-//   '/submit-user-data',
-//   authController.protect,
-//   viewsController.updateUserData,
-// );
 
 module.exports = router;

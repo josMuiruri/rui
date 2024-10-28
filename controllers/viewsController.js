@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
-exports.getOverview = catchAsync(async (req, res) => {
+exports.getOverview = catchAsync(async (req, res, next) => {
   // product data from collection
   const products = await Product.find();
 
@@ -25,7 +25,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).render('product', {
-    title: product.name,
+    title: `${product.name}`,
     product,
   });
 });
@@ -36,11 +36,17 @@ exports.getLoginForm = (req, res) => {
   });
 };
 
-// exports.getSignUpForm = (req, res) => {
-//   res.status(200).render('sign-up', {
-//     title: 'Sign-up',
-//   });
-// };
+exports.getSignUpForm = (req, res) => {
+  res.status(200).render('sign-up', {
+    title: 'Sign-up',
+  });
+};
+
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account',
+  });
+};
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
@@ -60,9 +66,3 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     user: updatedUser,
   });
 });
-
-exports.getAccount = (req, res) => {
-  res.status(200).render('account', {
-    title: 'Your account',
-  });
-};
