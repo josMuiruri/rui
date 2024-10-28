@@ -1,0 +1,18 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName},
+  p Welcome to Rui, we're glad to have you 🎉🙏
+  p We do sell laptops, feel free to explore!
+  P You can also upload your photo if you wish so.
+  table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    tbody
+      tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${url}`, target='_blank') Upload user photo
+  p If you need any help with buying a laptop, please don't hesitate to contact us!
+  p - Joseph Muiruri, support, RUI
