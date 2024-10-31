@@ -1,6 +1,13 @@
 extends base
-
 include _reviewCard
+
+//- block append head 
+//-     script(src='https://js.stripe.com/v3/')
+
+//- block append scripts 
+//-     script(src='/js/stripe.js')
+//-     script(src='/js/index.js')
+
 
 mixin overviewBox(label, text, icon)
     .overview-box__detail 
@@ -43,13 +50,15 @@ block content
                 +reviewCard(review)
 
 
-
     section.section-cta 
         .cta 
             .cta__img.cta__img__logo 
                 img(src='/img/logo-white.png', alt='Rui')
-            img.cta__img.cta__img--1(scr='/img/product', alt='')
+            img.cta__img.cta__img--1(src='/img/product', alt='')
             .cta__content 
                 h2.heading-secondary What are you waiting for
                 p.cta__text Buy a Laptop with us 
-                button.btn.btn--green.span-all-rows Buy now
+                if user 
+                    button.btn.btn--green.span-all-rows#book-product(data-product-id=`${product.id}`) Buy now
+                else 
+                    a.btn.btn--green.span-all-rows(href='/login') Log in to buy a Laptop 
