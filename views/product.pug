@@ -1,13 +1,9 @@
 extends base
 include _reviewCard
 
-//- block append head 
-//-     script(src='https://js.stripe.com/v3/')
-
-//- block append scripts 
-//-     script(src='/js/stripe.js')
-//-     script(src='/js/index.js')
-
+block append head 
+    script(src='https://js.stripe.com/v3/')
+    
 
 mixin overviewBox(label, text, icon)
     .overview-box__detail 
