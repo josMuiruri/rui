@@ -67,6 +67,15 @@ app.use(
 //   next();
 // });
 
+// Add Content Security Policy to allow Stripe script
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' https://js.stripe.com"
+  );
+  next();
+});
+
 // Mounting the routers
 app.use('/', viewRouter);
 app.use('/api/v1/products', productRouter);

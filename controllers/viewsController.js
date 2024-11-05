@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
@@ -47,6 +48,20 @@ exports.getAccount = (req, res) => {
     title: 'Your account',
   });
 };
+
+exports.getMyProducts = catchAsync(async (req, res, next) => {
+  // find booking
+  const bookings = await Booking.find({ user: req.user.id });
+
+  // find products with the returned IDs
+  const productIDs = bookings.map((el) => el.product);
+  const products = await Product.find({ _id: { $in: productIDs } });
+
+  res.status(200).render('overview', {
+    title: 'My Products',
+    products,
+  });
+});
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(

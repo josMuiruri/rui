@@ -1,10 +1,16 @@
 const express = require('express');
-const viewsController = require('./../controllers/viewsController');
-const authController = require('./../controllers/authController');
+const viewsController = require('../controllers/viewsController');
+const authController = require('../controllers/authController');
+const bookingController = require('../controllers/bookingController');
 
 const router = express.Router();
 
-router.get('/', authController.isLoggedIn, viewsController.getOverview);
+router.get(
+  '/',
+  bookingController.createBookingCheckout,
+  authController.isLoggedIn,
+  viewsController.getOverview,
+);
 router.get(
   '/product/:slug',
   authController.isLoggedIn,
@@ -17,5 +23,6 @@ router.get(
   viewsController.getSignUpForm,
 );
 router.get('/me', authController.protect, viewsController.getAccount);
+router.get('/my-products', authController.protect, viewsController.getMyProducts);
 
 module.exports = router;
