@@ -2,7 +2,6 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validate = require('validator');
 const bcrypt = require('bcryptjs');
-const catchAsync = require('../utils/catchAsync');
 
 const userSchema = new mongoose.Schema({
   name: {

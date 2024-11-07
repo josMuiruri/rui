@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -70,11 +71,13 @@ app.use(
 // Add Content Security Policy to allow Stripe script
 app.use((req, res, next) => {
   res.setHeader(
-    "Content-Security-Policy",
-    "script-src 'self' https://js.stripe.com"
+    'Content-Security-Policy',
+    "script-src 'self' https://js.stripe.com",
   );
   next();
 });
+
+app.use(compression());
 
 // Mounting the routers
 app.use('/', viewRouter);

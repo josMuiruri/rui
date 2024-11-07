@@ -20,7 +20,7 @@ const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 exports.uploadProductImage = upload.array('image', 3);
 
 exports.resizeProductImage = catchAsync(async (req, res, next) => {
-  console.log(req.files);
+  // console.log(req.files);
 
   if (!req.files.image) return next();
   req.body.image = [];
@@ -33,7 +33,7 @@ exports.resizeProductImage = catchAsync(async (req, res, next) => {
         .resize(2000, 1333)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
-        .toFile(`/public/img/products/${filename}`);
+        .toFile(`/public/img/product/${filename}`);
 
       req.body.image.push(filename);
     }),

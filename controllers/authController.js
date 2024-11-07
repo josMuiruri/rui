@@ -48,7 +48,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+  // console.log(url);
   await new Email(newUser, url).sendWelcome();
   const token = signToken(newUser._id);
   createSendToken(newUser, 201, res);
@@ -56,7 +56,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   // read the email & password from the body
-  // const { email, password } = req.body;
   const { email, password } = req.body;
 
   // 1) check if email & password exist
@@ -210,7 +209,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(req.params.token)
     .digest('hex');
-  console.log('TOKEN==-----', req.params.token);
+  // console.log('TOKEN==-----', req.params.token);
+
   // - find the user who has the token send via the url & if token has expired
   const user = await User.findOne({
     passwordResetToken: hashedToken,

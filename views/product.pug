@@ -29,12 +29,16 @@ block content
 
 
 
-    .description-box 
-        h2.heading-secondary.ma-bt-lg= `About ${product.name}`
-        - const paragraphs = product.description.split('\n');
-        each p in paragraphs 
-            p.description__text= p 
+        .description-box 
+            h2.heading-secondary.ma-bt-lg= `About ${product.name}`
+            - const paragraphs = product.description.split('\n');
+            each p in paragraphs 
+                p.description__text= p 
 
+    //- section.section-pictures
+    //- each img, i in product.images
+    //-   .picture-box
+    //-     img.picture-box__img(src=`/products/${img}`, alt=` ${i + 1}`, class=`picture-box__img--${i + 1}`)
 
     section.section-reviews 
         .reviews 
@@ -45,8 +49,8 @@ block content
     section.section-cta 
         .cta 
             .cta__img.cta__img__logo 
-                img(src='/img/logo-white.png', alt='Rui')
-            img.cta__img.cta__img--1(src='/img/product', alt='')
+                //- img(src='/img/plug-socket.png', alt='Rui')
+            //- img.cta__img.cta__img--1(src='/img/product', alt='')
             .cta__content 
                 h2.heading-secondary What are you waiting for
                 p.cta__text Buy a Laptop with us 
