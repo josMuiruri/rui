@@ -2,3 +2,5 @@ node_modules
 .prettierrc
 config.env
 .cache/
+.dockerignore
+Dockerfile
