@@ -22,13 +22,6 @@ module.exports = class Email {
             domain: process.env.MAILGUN_DOMAIN,
           },
         }),
-        //   ({
-        //   service: 'SendGrid',
-        //   auth: {
-        //     user: process.env.SENDGRID_USERNAME,
-        //     pass: process.env.SENDGRID_PASSWORD,
-        //   },
-        // });
       );
     }
 

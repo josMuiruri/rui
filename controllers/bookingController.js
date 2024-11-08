@@ -20,7 +20,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       {
         name: `${product.name} Laptop`,
         description: product.description,
-        images: [`http://127.0.0.1:3000/products/${product.image}`],
+        images: [`https://rui-orpin.vercel.app/products/${product.image}`],
         amount: product.price * 100,
         currency: 'usd',
         quantity: 1,

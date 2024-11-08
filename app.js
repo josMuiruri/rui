@@ -69,13 +69,14 @@ app.use(
 // });
 
 // Add Content Security Policy to allow Stripe script
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "script-src 'self' https://js.stripe.com",
-  );
-  next();
-});
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
+    },
+  }),
+);
 
 app.use(compression());
 
