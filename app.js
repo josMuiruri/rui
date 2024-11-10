@@ -51,11 +51,6 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", 'https://js.stripe.com'],
       frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-      connectSrc: [
-        "'self'",
-        'http://127.0.0.1:3000',
-        'https://rui-orpin.vercel.app',
-      ],
       // Include other directives as necessary
     },
   }),
