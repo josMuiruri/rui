@@ -1249,6 +1249,109 @@ body {
   margin-bottom: 0.75rem;
 }
 
+.signup-form {
+  max-width: 50rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+}
+
+h2.heading-secondary {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Form Group */
+.form__group {
+  margin-bottom: 2rem;
+}
+
+.form__group.ma-bt-md {
+  margin-bottom: 3rem;
+}
+
+.form__label {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.8rem;
+}
+
+/* Input Fields */
+.form__input {
+  width: 100%;
+  padding: 1.25rem;
+  font-size: 1.6rem;
+  color: #333;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: #55c57a;
+}
+
+.form__input::placeholder {
+  color: #aaa;
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 1.25rem;
+  font-size: 1.6rem;
+  text-align: center;
+  background-color: #55c57a;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn--green {
+  background-color: #55c57a;
+}
+
+.btn--green:hover {
+  background-color: #48a156;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-form {
+    padding: 1.5rem;
+    margin: 2rem;
+  }
+
+  h2.heading-secondary {
+    font-size: 2rem;
+  }
+
+  .form__label {
+    font-size: 1.4rem;
+  }
+
+  .form__input {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    font-size: 1.4rem;
+  }
+}
+
 .form__photo-upload {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1297,4 +1400,74 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+/*  Responsive Rules */
+@media (max-width: 1200px) {
+  .card__details {
+    grid-template-columns: 1fr; /* Stack the details on smaller screens */
+  }
+
+  .login-form {
+    padding: 3rem 4rem; /* Reduce padding for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .card__details {
+    grid-template-columns: 1fr; /* Stack card details on small screens */
+    padding: 2rem 2.5rem;
+  }
+
+  .card__footer {
+    padding: 1.5rem 2rem; /* Reduce footer padding */
+  }
+
+  .login-form {
+    padding: 2rem 3rem; /* Reduce form padding */
+    max-width: 100%; /* Allow the form to take full width */
+  }
+
+  .form__input {
+    font-size: 1.4rem; /* Smaller font size on small screens */
+  }
+
+  .form__label {
+    font-size: 1.4rem;
+  }
+
+  .error__msg {
+    font-size: 2rem; /* Reduce font size for error messages */
+  }
+}
+
+@media (max-width: 480px) {
+  .card__details {
+    grid-template-columns: 1fr; /* Stack card details completely */
+    padding: 1.5rem 2rem;
+  }
+
+  .card__sub-heading,
+  .card__text {
+    font-size: 1.2rem; /* Reduce text size */
+  }
+
+  .login-form {
+    padding: 2rem;
+    max-width: 100%;
+  }
+
+  .form__input {
+    font-size: 1.3rem;
+  }
+
+  .form__photo-upload {
+    flex-direction: column; /* Stack the photo upload button vertically */
+    font-size: 1.4rem;
+  }
+
+  .form__user-photo {
+    margin-right: 0;
+    margin-bottom: 1rem; /* Add margin at the bottom of the photo */
+  }
 }
