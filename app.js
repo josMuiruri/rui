@@ -51,7 +51,8 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", 'https://js.stripe.com'],
       frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-      // Include other directives as necessary
+      imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'], // Allow images from Vercel and data URIs
+      connectSrc: ["'self'", 'https://rui-orpin.vercel.app'],
     },
   }),
 );
