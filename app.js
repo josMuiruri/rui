@@ -27,8 +27,24 @@ app.set('views', path.join(__dirname, 'views'));
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// const connectSrcUrls = [
+//   "'self'",
+//   process.env.NODE_ENV === 'production' 
+//     ? "https://rui-orpin.vercel.app" 
+//     : "http://127.0.0.1:3000"
+// ];
+
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "https://js.stripe.com"],
+    frameSrc: ["'self'", "https://js.stripe.com", "https://vercel.live"],
+    connectSrc: ["'self'", "http://127.0.0.1:3000", "https://rui-orpin.vercel.app"],
+    // Include other directives as necessary
+  }
+}));
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
