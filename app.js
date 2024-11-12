@@ -40,16 +40,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set security HTTP headers
 // app.use(helmet());
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'https://js.stripe.com'],
-      frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-      imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'], // Allow images from Vercel and data URIs
-      connectSrc: ["'self'", 'https://rui-orpin.vercel.app'],
-    },
-  }),
+  helmet(),
+  // helmet.contentSecurityPolicy({
+  //   directives: {
+  //     defaultSrc: ["'self'"],
+  //     scriptSrc: ["'self'", 'https://js.stripe.com'],
+  //     frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
+  //     imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'], // Allow images from Vercel and data URIs
+  //     connectSrc: ["'self'", 'https://rui-orpin.vercel.app'],
+  //   },
+  // }),
 );
+
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; frame-src https://js.stripe.com; script-src 'self' https://js.stripe.com;",
+  );
+  next();
+});
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
