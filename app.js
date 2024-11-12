@@ -38,7 +38,7 @@ app.options('*', cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
-// app.use(helmet());
+
 app.use(
   helmet(),
   // helmet.contentSecurityPolicy({
@@ -46,19 +46,16 @@ app.use(
   //     defaultSrc: ["'self'"],
   //     scriptSrc: ["'self'", 'https://js.stripe.com'],
   //     frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-  //     imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'], // Allow images from Vercel and data URIs
-  //     connectSrc: ["'self'", 'https://rui-orpin.vercel.app'],
+  //     imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
+  //     connectSrc: [
+  //       "'self'",
+  //       'https://rui-orpin.vercel.app',
+  //       'https://api.stripe.com',
+  //     ],
+  //     styleSrc: ["'self'", "'unsafe-inline'"],
   //   },
   // }),
 );
-
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; frame-src https://js.stripe.com; script-src 'self' https://js.stripe.com;",
-  );
-  next();
-});
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -103,16 +100,6 @@ app.use(
 //   console.log(req.cookies);
 //   next();
 // });
-
-// Add Content Security Policy to allow Stripe script
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-    },
-  }),
-);
 
 app.use(compression());
 
