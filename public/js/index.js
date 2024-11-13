@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { bookProduct } from './stripe';
+import { showAlert } from './alerts';
 
 // DOM elements
 const loginForm = document.querySelector('.form--login');
@@ -67,3 +68,6 @@ if (bookBtn)
     const { productId } = e.target.dataset;
     bookProduct(productId);
   });
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alert) showAlert('success', alertMessage, 20);
