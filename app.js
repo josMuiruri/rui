@@ -41,20 +41,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   helmet(),
-  // helmet.contentSecurityPolicy({
-  //   directives: {
-  //     defaultSrc: ["'self'"],
-  //     scriptSrc: ["'self'", 'https://js.stripe.com'],
-  //     frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-  //     imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
-  //     connectSrc: [
-  //       "'self'",
-  //       'https://rui-orpin.vercel.app',
-  //       'https://api.stripe.com',
-  //     ],
-  //     styleSrc: ["'self'", "'unsafe-inline'"],
-  //   },
-  // }),
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://js.stripe.com'],
+      frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
+      imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
+      connectSrc: [
+        "'self'",
+        'https://rui-orpin.vercel.app',
+        'https://api.stripe.com',
+      ],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    },
+  }),
 );
 
 // Development logging
