@@ -103,6 +103,7 @@ app.use(
           'https://js.stripe.com',
           'https://checkout.stripe.com',
           'https://vercel.com',
+          'https://vercel.live',
         ],
         'style-src': [
           "'self'",
