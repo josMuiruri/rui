@@ -14,11 +14,7 @@ router.get(
   viewsController.getProduct,
 );
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
-router.get(
-  '/sign-up',
-  authController.isLoggedIn,
-  viewsController.getSignUpForm,
-);
+router.get('/sign-up', viewsController.getSignUpForm);
 router.get('/me', authController.protect, viewsController.getAccount);
 router.get(
   '/my-products',
