@@ -57,7 +57,6 @@ app.use(
           'https://fonts.googleapis.com',
           'https://checkout.stripe.com',
         ],
-        'style-src-elem': ["'self'", 'https://fonts.googleapis.com'],
         'img-src': [
           "'self'",
           'data:',
@@ -65,7 +64,6 @@ app.use(
           'https://q.stripe.com',
           // 'https://your-mpesa-cdn.com',
         ],
-        'font-src': ["'self'", 'https://fonts.gstatic.com'],
         'connect-src': [
           "'self'",
           'https://rui-rose.vercel.app/',
