@@ -40,51 +40,127 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set security HTTP headers
 
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        'default-src': ["'self'"],
-        'script-src': [
-          "'self'",
-          'https://js.stripe.com',
-          'https://checkout.stripe.com',
-          'https://vercel.com',
-          'https://vercel.live',
-        ],
-        'style-src': [
-          "'self'",
-          'https://fonts.googleapis.com',
-          'https://checkout.stripe.com',
-        ],
-        'img-src': [
-          "'self'",
-          'data:',
-          'https://checkout.stripe.com',
-          'https://q.stripe.com',
-          // 'https://your-mpesa-cdn.com',
-        ],
-        'connect-src': [
-          "'self'",
-          'https://rui-rose.vercel.app/',
-          'https://api.stripe.com',
-          'https://vercel.com',
-          // 'https://your-mpesa-api.com',
-        ],
-        'frame-src': [
-          "'self'",
-          'https://js.stripe.com',
-          'https://checkout.stripe.com',
-          // 'https://your-mpesa-payment-gateway.com',
-        ],
-        'frame-ancestors': ["'self'"],
-        'object-src': ["'none'"],
-        'base-uri': ["'self'"],
-        'form-action': ["'self'"],
-      },
+  helmet(),
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://js.stripe.com'],
+      frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
+      imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
+      connectSrc: [
+        "'self'",
+        'https://rui-orpin.vercel.app',
+        'https://api.stripe.com',
+      ],
+      styleSrc: ["'self'", "'unsafe-inline'"],
     },
   }),
 );
+
+// Report-Only CSP for testing
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       useDefaults: true,
+//       directives: {
+//         'default-src': ["'self'"],
+//         'script-src': [
+//           "'self'",
+//           "'unsafe-inline'",
+//           'https://js.stripe.com',
+//           'https://checkout.stripe.com',
+//           'https://vercel.com',
+//         ],
+//         'style-src': [
+//           "'self'",
+//           "'unsafe-inline'",
+//           'https://fonts.googleapis.com',
+//           'https://checkout.stripe.com',
+//         ],
+//         'img-src': [
+//           "'self'",
+//           'data:',
+//           'https://checkout.stripe.com',
+//           'https://q.stripe.com',
+//           // 'https://your-mpesa-cdn.com',
+//         ],
+//         'font-src': ["'self'", 'https://fonts.gstatic.com'],
+//         'connect-src': [
+//           "'self'",
+//           'https://https://rui-rose.vercel.app/',
+//           'https://api.stripe.com',
+//           'https://vercel.com',
+//           // 'https://your-mpesa-api.com',
+//         ],
+//         'frame-src': [
+//           "'self'",
+//           'https://js.stripe.com',
+//           'https://checkout.stripe.com',
+//           // 'https://your-mpesa-payment-gateway.com',
+//         ],
+//         'frame-ancestors': ["'self'"],
+//         'object-src': ["'none'"],
+//         'base-uri': ["'self'"],
+//         'form-action': ["'self'"],
+//       },
+//       reportOnly: true, // Enables report-only mode for testing
+//     },
+//   }),
+// );
+
+// Enforced CSP for production
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       useDefaults: true,
+//       directives: {
+//         "default-src": ["'self'"],
+//         "script-src": [
+//           "'self'",
+//           "'unsafe-inline'",
+//           "https://js.stripe.com",
+//           "https://checkout.stripe.com",
+//           "https://vercel.com"
+//         ],
+//         "style-src": [
+//           "'self'",
+//           "'unsafe-inline'",
+//           "https://fonts.googleapis.com",
+//           "https://checkout.stripe.com"
+//         ],
+//         "style-src-elem": [
+//           "'self'",
+//           "https://fonts.googleapis.com"
+//         ],
+//         "img-src": [
+//           "'self'",
+//           "data:",
+//           "https://checkout.stripe.com",
+//           "https://q.stripe.com",
+//           "https://your-mpesa-cdn.com"
+//         ],
+//         "font-src": ["'self'", "https://fonts.gstatic.com"],
+//         "connect-src": [
+//           "'self'",
+//           "https://api.yourwebsite.com",
+//           "https://api.stripe.com",
+//           "https://vercel.com",
+//           "https://your-mpesa-api.com"
+//         ],
+//         "frame-src": [
+//           "'self'",
+//           "https://js.stripe.com",
+//           "https://checkout.stripe.com",
+//           "https://your-mpesa-payment-gateway.com"
+//         ],
+//         "frame-ancestors": ["'self'"],
+//         "object-src": ["'none'"],
+//         "base-uri": ["'self'"],
+//         "form-action": ["'self'"]
+//       },
+//     },
+//   })
+// );
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
