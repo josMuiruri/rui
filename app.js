@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 //   helmet.contentSecurityPolicy({
 //     directives: {
 //       defaultSrc: ["'self'"],
