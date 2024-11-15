@@ -2,6 +2,7 @@
   "version": 2,
   "builds": [{ "src": "./server.js", "use": "@vercel/node" }],
   "routes": [
+    { "src": "/public/(.*)", "dest": "/public/$1" },
     { "src": "/api/(.*)", "dest": "/server.js" },
     { "src": "/(.*)", "dest": "/server.js" }
   ],
@@ -11,9 +12,10 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://js.stripe.com https://vercel.live; frame-src 'self' https://js.stripe.com; connect-src 'self' https://vercel.live https://js.stripe.com; img-src 'self' https://rui-rose.vercel.app data:;"
+          "value": "default-src 'self'; script-src 'self' https://js.stripe.com https://vercel.live; frame-src 'self' https://js.stripe.com; connect-src 'self' https://vercel.live https://js.stripe.com https://rui-rose.vercel.app https://rui-rose.vercel/api; img-src 'self' https://rui-rose.vercel.app data:;"
         }
       ]
     }
   ]
 }
+
