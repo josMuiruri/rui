@@ -39,23 +39,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 
-app.use(
-  helmet(),
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'https://js.stripe.com'],
-      frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
-      imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
-      connectSrc: [
-        "'self'",
-        'https://rui-orpin.vercel.app',
-        'https://api.stripe.com',
-      ],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-    },
-  }),
-);
+app.use(helmet());
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: ["'self'", 'https://js.stripe.com'],
+//       frameSrc: ["'self'", 'https://js.stripe.com', 'https://vercel.live'],
+//       imgSrc: ["'self'", 'https://rui-orpin.vercel.app', 'data:'],
+//       connectSrc: [
+//         "'self'",
+//         'https://rui-orpin.vercel.app',
+//         'https://api.stripe.com',
+//       ],
+//       styleSrc: ["'self'", "'unsafe-inline'"],
+//     },
+//   }),
+// );
 
 // Report-Only CSP for testing
 // app.use(
