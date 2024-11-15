@@ -39,58 +39,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 
-// Report-Only CSP for testing
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       useDefaults: true,
-//       directives: {
-//         'default-src': ["'self'"],
-//         'script-src': [
-//           "'self'",
-//           "'unsafe-inline'",
-//           'https://js.stripe.com',
-//           'https://checkout.stripe.com',
-//           'https://vercel.com',
-//         ],
-//         'style-src': [
-//           "'self'",
-//           "'unsafe-inline'",
-//           'https://fonts.googleapis.com',
-//           'https://checkout.stripe.com',
-//         ],
-//         'img-src': [
-//           "'self'",
-//           'data:',
-//           'https://checkout.stripe.com',
-//           'https://q.stripe.com',
-//           // 'https://your-mpesa-cdn.com',
-//         ],
-//         'font-src': ["'self'", 'https://fonts.gstatic.com'],
-//         'connect-src': [
-//           "'self'",
-//           'https://rui-rose.vercel.app/',
-//           'https://api.stripe.com',
-//           'https://vercel.com',
-//           // 'https://your-mpesa-api.com',
-//         ],
-//         'frame-src': [
-//           "'self'",
-//           'https://js.stripe.com',
-//           'https://checkout.stripe.com',
-//           // 'https://your-mpesa-payment-gateway.com',
-//         ],
-//         'frame-ancestors': ["'self'"],
-//         'object-src': ["'none'"],
-//         'base-uri': ["'self'"],
-//         'form-action': ["'self'"],
-//       },
-//       reportOnly: true, // Enables report-only mode for testing
-//     },
-//   }),
-// );
-
-// Enforced CSP for production
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -99,7 +47,6 @@ app.use(
         'default-src': ["'self'"],
         'script-src': [
           "'self'",
-          "'unsafe-inline'",
           'https://js.stripe.com',
           'https://checkout.stripe.com',
           'https://vercel.com',
@@ -107,7 +54,6 @@ app.use(
         ],
         'style-src': [
           "'self'",
-          "'unsafe-inline'",
           'https://fonts.googleapis.com',
           'https://checkout.stripe.com',
         ],
