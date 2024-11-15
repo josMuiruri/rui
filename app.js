@@ -69,7 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //         'font-src': ["'self'", 'https://fonts.gstatic.com'],
 //         'connect-src': [
 //           "'self'",
-//           'https://https://rui-rose.vercel.app/',
+//           'https://rui-rose.vercel.app/',
 //           'https://api.stripe.com',
 //           'https://vercel.com',
 //           // 'https://your-mpesa-api.com',
@@ -121,7 +121,7 @@ app.use(
         'font-src': ["'self'", 'https://fonts.gstatic.com'],
         'connect-src': [
           "'self'",
-          'https://https://rui-rose.vercel.app/',
+          'https://rui-rose.vercel.app/',
           'https://api.stripe.com',
           'https://vercel.com',
           // 'https://your-mpesa-api.com',
