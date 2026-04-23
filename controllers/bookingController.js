@@ -8,7 +8,7 @@ const factory = require('./handlerFactory');
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // get the currently booked product
   const product = await Product.findById(req.params.productId);
-  // console.log(product);
+  console.log(product);
 
   // create checkout session
   const session = await stripe.checkout.sessions.create({
@@ -63,6 +63,10 @@ exports.webhookCheckout = (req, res, next) => {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET,
     );
+    // console.log(process.env.DATABASE);
+    console.log(typeof process.env.STRIPE_WEBHOOK_SECRET);
+
+    console.log(signature);
   } catch (err) {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }

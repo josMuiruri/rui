@@ -22,7 +22,7 @@ exports.uploadProductImage = upload.array('image', 3);
 exports.resizeProductImage = catchAsync(async (req, res, next) => {
   // console.log(req.files);
 
-  if (!req.files.image) return next();
+  if (!req.files?.image) return next();
   req.body.image = [];
 
   await Promise.all(
@@ -33,7 +33,7 @@ exports.resizeProductImage = catchAsync(async (req, res, next) => {
         .resize(2000, 1333)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
-        .toFile(`/public/img/product/${filename}`);
+        .toFile(`public/img/product/${filename}`);
 
       req.body.image.push(filename);
     }),
