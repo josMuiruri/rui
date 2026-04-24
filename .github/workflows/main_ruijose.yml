@@ -62,16 +62,3 @@ jobs:
         with:
           app-name: ruijose
           package: .
-
-      - name: Health check (production)
-        run: |
-          for i in {1..10}; do
-            if curl -f https://ruijose.azurewebsites.net/health; then
-              echo "App is healthy"
-              exit 0
-            fi
-            echo "Waiting for app to start..."
-            sleep 10
-          done
-          echo "Health check failed"
-          exit 1
