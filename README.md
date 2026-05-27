@@ -25,7 +25,7 @@ The platform is designed to provide:
 ### Backend
 * Node.js
 * Express.js
-* Mongose
+* Mongoose
 * MongoDB
 
 ### Frontend
