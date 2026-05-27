@@ -58,6 +58,9 @@ export const signup = async (name, email, password, passwordConfirm) => {
       }, 1500);
     }
   } catch (err) {
+  if (err.response?.data?.code === 11000) {
+    showAlert('error', 'That email is already registered. Please log in or use another email.')
+  } else {
     showAlert('error', err.response?.data?.message || err.message);
     // showAlert('error', err.response.data.message);
   }
