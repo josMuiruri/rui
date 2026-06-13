@@ -33,13 +33,14 @@ The platform is designed to provide:
 * CSS3
 * JavaScript
 
-Infrastructure & DevOps
+## Infrastructure & DevOps
 * Docker
 * Azure
 
 ## Installation
 ### Clone Repository
 git clone https://github.com/josMuiruri/rui.git
+
 cd rui
 
 ### Install Dependencies
