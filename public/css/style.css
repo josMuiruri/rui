@@ -1401,3 +1401,128 @@ h2.heading-secondary {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+html {
+  font-size: 62.5%;
+}
+
+@media (max-width: 75em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media (max-width: 56.25em) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 37.5em) {
+  html {
+    font-size: 43.75%;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+  }
+
+  .main {
+    padding: 4rem 2rem;
+  }
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 3rem;
+}
+
+@media (max-width: 768px) {
+
+  .section-description {
+    flex-direction: column;
+  }
+
+  .section-description > * {
+    flex: 1 1 100%;
+    padding: 4rem 2rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .cta {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .cta__img {
+    display: none;
+  }
+
+  .cta__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .user-view {
+    flex-direction: column;
+  }
+
+  .user-view__menu {
+    flex: auto;
+  }
+
+  .user-view__content {
+    padding: 3rem 2rem;
+  }
+
+  .user-view__form-container {
+    padding: 0;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .heading-primary {
+    font-size: 3.2rem;
+    width: 90%;
+  }
+
+  .heading-secondary {
+    font-size: 2rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .section-header {
+    height: 60vh;
+  }
+
+  .heading-box {
+    width: 90%;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .footer__nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+}
