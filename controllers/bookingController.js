@@ -10,6 +10,16 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.productId);
   console.log(product);
 
+  if (!product) {
+    return next(new AppError('No product found with that ID', 404));
+  }
+
+  // Ensure image string exists to prevent Axios protocol crash
+  const productImage = product.image ? product.image : 'default-product.jpg';
+
+  // Build a secure production-grade image URL
+  const imageUrl = `${req.protocol}://${req.get('host')}/products/${productImage}`;
+
   // create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -18,16 +28,31 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     cancel_url: `${req.protocol}://${req.get('host')}/product/${product.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.productId,
-    line_items: [
+    // line_items: [
+    //   {
+    //     name: `${product.name} Laptop`,
+    //     description: product.description,
+    //     images: [`${req.protocol}://${req.get('host')}/products/${product.image}`],
+    //     amount: product.price * 100,
+    //     currency: 'usd',
+    //     quantity: 1,
+    //   },
+    // ],
+     line_items: [
       {
-        name: `${product.name} Laptop`,
-        description: product.description,
-        images: [`${req.protocol}://${req.get('host')}/products/${product.image}`],
-        amount: product.price * 100,
-        currency: 'usd',
+        price_data: {
+          currency: 'usd',
+          unit_amount: product.price * 100,
+          product_data: {
+            name: `${product.name} Laptop`,
+            description: product.description || 'No description available',
+            images: [imageUrl],
+          },
+        },
         quantity: 1,
       },
     ],
+    mode: 'payment',
   });
 
   // create session as response
@@ -46,10 +71,23 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //   res.redirect(re.originalUrl.split('?')[0]);
 // });
 
+// const createBookingCheckout = async (session) => {
+//   const product = session.client_reference_id;
+//   const user = (await User.findOne({ email: session.customer_email })).id;
+//   const price = session.display_items[0].amount / 100;
+//   await Booking.create({ product, user, price });
+// };
+
 const createBookingCheckout = async (session) => {
   const product = session.client_reference_id;
-  const user = (await User.findOne({ email: session.customer_email })).id;
-  const price = session.display_items[0].amount / 100;
+  
+  const userObj = await User.findOne({ email: session.customer_email });
+  if (!userObj) return;
+
+  const user = userObj.id;
+  
+  const price = session.amount_total / 100; 
+
   await Booking.create({ product, user, price });
 };
 
